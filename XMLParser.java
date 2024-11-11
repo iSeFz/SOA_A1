@@ -10,6 +10,14 @@ import org.w3c.dom.NodeList;
 
 public class XMLParser {
 
+    // Data file name
+    private final String fileName;
+
+    // Constructor
+    public XMLParser(String fileName) {
+        this.fileName = fileName;
+    }
+
     // Search for student by GPA or FirstName
     public Student findStudent(String searchValue) throws Exception {
         // Create a DocumentBuilder
@@ -23,7 +31,7 @@ public class XMLParser {
         Element university;
 
         // File object to check for the existence of the file
-        File inputFile = new File("University.xml");
+        File inputFile = new File(fileName);
 
         // Create a new xml file or parse an existing one
         if (inputFile.exists()) {

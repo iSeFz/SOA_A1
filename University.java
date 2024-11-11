@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -9,27 +10,66 @@ public class University {
     private List<Student> students;
 
     // Global Scanner to be used in all methods
-    Scanner scanner = new Scanner(System.in);
+    Scanner scanner;
+
+    // Data file name
+    private final String fileName;
 
     // Default constructor
     public University() {
         this.students = new ArrayList<Student>();
+        this.scanner = new Scanner(System.in);
+        this.fileName = "University.xml";
     }
 
     // Main method
     public static void main(String[] args) throws Exception {
         System.out.println("\tWelcome to the University!");
         University university = new University();
-        // Get students data from the user
-        university.addStudents();
-        // Store the added students data to an XML file
-        XMLWriter xmlWriter = new XMLWriter();
-        xmlWriter.storeStudentsToXML(university.students);
-        // Search for student by GPA or FirstName
-        // university.searchStudent();
-        university.deleteStudent();
-
+        // Create or open the file
+        university.createFileIfNotExist();
+        // Search for student by GPA or FirstName or Delete student by ID
+        university.askUser();
+        // Close the scanner
         university.close();
+    }
+
+    public void createFileIfNotExist() throws Exception {
+        // Check if the file exists
+        File inputFile = new File(fileName);
+        if (inputFile.exists()) return;
+
+        // Get students data from the user
+        addStudents();
+        // Store the added students data to an XML file
+        XMLWriter xmlWriter = new XMLWriter(fileName);
+        xmlWriter.storeStudentsToXML(students);
+    }
+
+    public void askUser() throws Exception {
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Search for a student");
+            System.out.println("2. Delete a student");
+            System.out.println("3. Exit");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+    
+            switch (choice) {
+                case 1:
+                    searchStudent();
+                    break;
+                case 2:
+                    deleteStudent();
+                    break;
+                case 3:
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
     }
 
     // Close the scanner
@@ -74,7 +114,7 @@ public class University {
         System.out.print("Enter the GPA or FirstName of the student to search: ");
         String searchValue = scanner.nextLine();
         // Search for the student with the given GPA or FirstName
-        XMLParser xmlParser = new XMLParser();
+        XMLParser xmlParser = new XMLParser(fileName);
         Student student = xmlParser.findStudent(searchValue);
         if (student != null) {
             System.out.println("Student found: " + student);
@@ -89,7 +129,7 @@ public class University {
         System.out.print("Enter the ID of the student to delete: ");
         String studentId = scanner.nextLine();
         // Delete the student with the given ID
-        XMLDeleter xmlDeleter = new XMLDeleter();
+        XMLDeleter xmlDeleter = new XMLDeleter(fileName);
         if (xmlDeleter.deleteStudentById(studentId)) {
             System.out.println("Student deleted successfully!");
         } else {

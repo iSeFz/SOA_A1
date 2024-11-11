@@ -14,6 +14,14 @@ import org.w3c.dom.Element;
 
 public class XMLWriter {
 
+    // Data file name
+    private final String fileName;
+
+    // Constructor
+    public XMLWriter(String fileName) {
+        this.fileName = fileName;
+    }
+
     // Store the added students data to an XML file
     public void storeStudentsToXML(List<Student> students) throws Exception {
         // Create a DocumentBuilder
@@ -27,7 +35,7 @@ public class XMLWriter {
         Element university;
 
         // File object to check for the existence of the file
-        File inputFile = new File("University.xml");
+        File inputFile = new File(fileName);
 
         // Create a new xml file or parse an existing one
         if (inputFile.exists()) {
@@ -82,7 +90,7 @@ public class XMLWriter {
         DOMSource source = new DOMSource(document);
 
         // Specify your local file path
-        StreamResult result = new StreamResult("University.xml");
+        StreamResult result = new StreamResult(fileName);
         transformer.transform(source, result);
 
         System.out.println("Students stored successfully!");

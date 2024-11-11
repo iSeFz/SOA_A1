@@ -14,7 +14,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XMLDeleter {
-    String filePath = "University.xml";
+    // Data file name
+    private final String fileName;
+
+    // Constructor
+    public XMLDeleter(String fileName) {
+        this.fileName = fileName;
+    }
+
         // Delete student by ID
     public boolean deleteStudentById(String studentId) throws Exception {
         // Create a DocumentBuilder
@@ -28,7 +35,7 @@ public class XMLDeleter {
         Element university;
 
         // File object to check for the existence of the file
-        File inputFile = new File(filePath);
+        File inputFile = new File(fileName);
 
         // Create a new xml file or parse an existing one
         if (inputFile.exists()) {
@@ -66,7 +73,7 @@ public class XMLDeleter {
 
         // Write the changes to the XML file
         DOMSource source = new DOMSource(document);
-        StreamResult result = new StreamResult(new File(filePath));
+        StreamResult result = new StreamResult(new File(fileName));
         transformer.transform(source, result);
     }
 }
