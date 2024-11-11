@@ -7,13 +7,13 @@ import java.util.Scanner;
 // University class to store students data
 public class University {
     // Declare students array to store students data
-    private List<Student> students;
+    public List<Student> students;
 
     // Global Scanner to be used in all methods
     Scanner scanner;
 
     // Data file name
-    private final String fileName;
+    public final String fileName;
 
     // Default constructor
     public University() {
