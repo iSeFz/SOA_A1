@@ -26,7 +26,8 @@ public class University {
         XMLWriter xmlWriter = new XMLWriter();
         xmlWriter.storeStudentsToXML(university.students);
         // Search for student by GPA or FirstName
-        university.searchStudent();
+        // university.searchStudent();
+        university.deleteStudent();
 
         university.close();
     }
@@ -38,8 +39,6 @@ public class University {
 
     // Take students data as input from the user and create a Student objects and add them to the list.
     public void addStudents() {
-        // Declare a Scanner object to read input from the console
-        Scanner scanner = new Scanner(System.in);
         // Ask the user to enter the number of students s/he wants to store data about
         System.out.print("Enter the number of students to store data about: ");
         Integer numStudents = scanner.nextInt();
@@ -71,8 +70,6 @@ public class University {
 
     // Search for student with GPA or FirstName
     public void searchStudent() throws Exception {
-        // Declare a Scanner object to read input from the console
-        Scanner scanner = new Scanner(System.in);
         // Ask the user to enter the GPA or FirstName of the student to search
         System.out.print("Enter the GPA or FirstName of the student to search: ");
         String searchValue = scanner.nextLine();
@@ -81,6 +78,20 @@ public class University {
         Student student = xmlParser.findStudent(searchValue);
         if (student != null) {
             System.out.println("Student found: " + student);
+        } else {
+            System.out.println("Student not found!");
+        }
+    }
+
+    // Delete student by ID
+    public void deleteStudent() throws Exception {
+        // Ask the user to enter the ID of the student to delete
+        System.out.print("Enter the ID of the student to delete: ");
+        String studentId = scanner.nextLine();
+        // Delete the student with the given ID
+        XMLDeleter xmlDeleter = new XMLDeleter();
+        if (xmlDeleter.deleteStudentById(studentId)) {
+            System.out.println("Student deleted successfully!");
         } else {
             System.out.println("Student not found!");
         }
