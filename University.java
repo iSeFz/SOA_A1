@@ -8,6 +8,9 @@ public class University {
     // Declare students array to store students data
     private List<Student> students;
 
+    // Global Scanner to be used in all methods
+    Scanner scanner = new Scanner(System.in);
+
     // Default constructor
     public University() {
         this.students = new ArrayList<Student>();
@@ -24,6 +27,13 @@ public class University {
         xmlWriter.storeStudentsToXML(university.students);
         // Search for student by GPA or FirstName
         university.searchStudent();
+
+        university.close();
+    }
+
+    // Close the scanner
+    public void close() {
+        scanner.close();
     }
 
     // Take students data as input from the user and create a Student objects and add them to the list.
@@ -57,8 +67,6 @@ public class University {
             students.add(student);
             numStudents--;
         }
-        
-        scanner.close();
     }
 
     // Search for student with GPA or FirstName
@@ -68,7 +76,6 @@ public class University {
         // Ask the user to enter the GPA or FirstName of the student to search
         System.out.print("Enter the GPA or FirstName of the student to search: ");
         String searchValue = scanner.nextLine();
-        scanner.close();
         // Search for the student with the given GPA or FirstName
         XMLParser xmlParser = new XMLParser();
         Student student = xmlParser.findStudent(searchValue);
